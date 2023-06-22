@@ -1,19 +1,11 @@
 import * as THREE from 'three'
+import Debug from './Debug'
+import Resources from './Resources'
+import Sizes from './Sizes'
+import Time from './Time'
+import sources from './sources'
 
-import Debug from './Utils/Debug.js'
-import Sizes from './Utils/Sizes.js'
-import Time from './Utils/Time.js'
-import Camera from './Camera.js'
-import Renderer from './Renderer.js'
-import Display from './Components/Display.js'
-import Resources from './Utils/Resources.js'
 
-import sources from './sources.js'
-import MDPlaneRenderer from './MDPlaneRenderer.js'
-import AngleViewRenderer from './AngleViewRenderer.js'
-import DepthViewRenderer from "./DepthViewRenderer.js";
-import UnrolledViewRenderer from './UnrolledViewRenderer.js'
-import Environment from './Components/Environment.js'
 
 let instance: ThreeDVisualizer | null = null
 
@@ -31,6 +23,8 @@ export default class ThreeDVisualizer
     scene: any
     camera: any
     renderer: any
+
+    window: Window | undefined;
     constructor(_mdcanvas: any,_angleviewcanvas: any, _depthviewcanvas: any,  _unrolledviewcanvas: any)
     {
         // Singleton
@@ -41,7 +35,7 @@ export default class ThreeDVisualizer
         instance = this
 
         // Global access
-        window .threeDVisualizer = this
+        //window.threeDVisualizer = this
 
         // Setup
         this.debug = new Debug()

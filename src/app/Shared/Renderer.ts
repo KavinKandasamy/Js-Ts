@@ -1,19 +1,21 @@
 import * as THREE from 'three'
-import ThreeDVisualizer from './ThreeDVisualizer.js'
+import ThreeDVisualizer from './ThreeDVisualizer'
 
 export default class Renderer
 {
-    threeDVisualizer: ThreeDVisualizer
-    canvas: any
     scene: any
-    camera: any
-    width: any
-    height: any
-    pixelRatio: any
-    instance!: THREE.WebGLRenderer
+  threeDVisualizer: ThreeDVisualizer
+  canvas: any
+  camera: any
+  width: any
+  height: any
+  pixelRatio: any
+  instance!: THREE.WebGLRenderer;
+
+
     constructor(_canvas: any, _scene: any, _camera: any, _width: any, _height: any, _pixelRatio: any)
     {
-        this.threeDVisualizer = new ThreeDVisualizer()
+        this.threeDVisualizer = new ThreeDVisualizer(null,null,null,null)
         this.canvas = _canvas
         this.scene = _scene
         this.camera = _camera
@@ -30,7 +32,7 @@ export default class Renderer
             canvas: this.canvas,
             antialias: true
         })
-        this.instance.physicallyCorrectLights = true
+        //this.instance.physicallyCorrectLights = true
         this.instance.outputEncoding = THREE.sRGBEncoding
         this.instance.toneMapping = THREE.CineonToneMapping
         this.instance.toneMappingExposure = 1.75
