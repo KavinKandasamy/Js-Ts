@@ -4,6 +4,8 @@ import Resources from './Resources'
 import Sizes from './Sizes'
 import Time from './Time'
 import sources from './sources'
+import MDPlaneRenderer from '../components/MDPlaneRenderer'
+import Display from './Display'
 
 
 
@@ -25,48 +27,41 @@ export default class ThreeDVisualizer
     renderer: any
 
     window: Window | undefined;
-    constructor(_mdcanvas: any,_angleviewcanvas: any, _depthviewcanvas: any,  _unrolledviewcanvas: any)
-    {
-        // Singleton
-        if(instance)
-        {
-            return instance
-        }
-        instance = this
-
-        // Global access
-        //window.threeDVisualizer = this
-
-        // Setup
-        this.debug = new Debug()
-        this.sizes = new Sizes()
-        this.time = new Time()
-        //this.scene = new THREE.Scene()
-        this.resources = new Resources(sources)
-        //this.camera = new Camera()
-
-        this.mdPlaneRenderer = new MDPlaneRenderer(_mdcanvas, this)
-        this.angleViewRenderer = new AngleViewRenderer(_angleviewcanvas, this)
-        this.depthViewRenderer = new DepthViewRenderer(_depthviewcanvas, this)
-        this.unrolledViewRenderer = new UnrolledViewRenderer(_unrolledviewcanvas, this)
-
-        //this.environment = new Environment()
-        this.display = new Display()
-
-        // Resize event
-        //-- On Resize - callback this method
-        this.sizes.on('resize', () =>
-        {
-            this.resize()
-        })
-
-        // Time tick event
-        //-- On Tick - callback this method
-        this.time.on('tick', () =>
-        {
-            this.update()
-        })
+  constructor(...args: []) {
+    // Singleton
+    if (instance) {
+      return instance
     }
+    instance = this
+
+    // Global access
+    //window.threeDVisualizer = this
+    // Setup
+    this.debug = new Debug()
+    this.sizes = new Sizes()
+    this.time = new Time()
+    //this.scene = new THREE.Scene()
+    this.resources = new Resources(sources)
+    //this.camera = new Camera()
+    this.mdPlaneRenderer = new MDPlaneRenderer()
+    // this.angleViewRenderer = new AngleViewRenderer(_angleviewcanvas, this)
+    // this.depthViewRenderer = new DepthViewRenderer(_depthviewcanvas, this)
+    // this.unrolledViewRenderer = new UnrolledViewRenderer(_unrolledviewcanvas, this)
+    //this.environment = new Environment()
+    this.display = new Display()
+
+    // Resize event
+    //-- On Resize - callback this method
+    this.sizes.on('resize', () => {
+      this.resize()
+    })
+
+    // Time tick event
+    //-- On Tick - callback this method
+    this.time.on('tick', () => {
+      this.update()
+    })
+  }
 
     resize()
     {
