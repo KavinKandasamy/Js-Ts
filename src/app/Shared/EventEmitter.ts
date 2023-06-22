@@ -1,5 +1,6 @@
 export default class EventEmitter {
-  callbacks: {};
+  private callbacks:any
+  
   constructor() {
     this.callbacks = {};
     this.callbacks.base = {};
@@ -107,14 +108,14 @@ export default class EventEmitter {
     return this;
   }
 
-  trigger(_name: any, _args: any) {
+  trigger(_name: string, _args: any) : any {
     // Errors
     if (typeof _name === 'undefined' || _name === '') {
       console.warn('wrong name');
       return false;
     }
 
-    let finalResult: null = null;
+    let finalResult: any | undefined;
     let result = null;
 
     // Default args
@@ -134,10 +135,10 @@ export default class EventEmitter {
           this.callbacks[namespace] instanceof Object &&
           this.callbacks[namespace][name.value] instanceof Array
         ) {
-          this.callbacks[namespace][name.value].forEach(function (callback) {
-            result = callback.apply(this, args);
+          this.callbacks[namespace][name.value].forEach(function (callback: any) {
+            result = callback.apply(args);
 
-            if (typeof finalResult === 'undefined') {
+            if (finalResult === null) {
               finalResult = result;
             }
           });
@@ -152,12 +153,10 @@ export default class EventEmitter {
         return this;
       }
 
-      this.callbacks[name.namespace][name.value].forEach(function (callback: {
-        apply: (arg0: any, arg1: any[]) => any;
-      }) {
+      this.callbacks[name.namespace][name.value].forEach(function (callback: any) {
         //-- The apply in Javascript is used to call a function in a different object with the given
         //-- this value, and the arguments are passed in the form of an array
-        result = callback.apply(this, args);
+        result = callback.apply( args);
 
         if (typeof finalResult === 'undefined') finalResult = result;
       });
@@ -176,7 +175,12 @@ export default class EventEmitter {
   }
 
   resolveName(name: string) {
-    const newName = {};
+
+    const newName = {
+      original: '',
+      value: '',
+      namespace: '',
+    };
     const parts = name.split('.');
 
     newName.original = name;
@@ -190,4 +194,8 @@ export default class EventEmitter {
 
     return newName;
   }
+}
+
+export class callbacks{
+
 }
